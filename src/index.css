@@ -1,0 +1,57 @@
+@font-face {
+  font-family: 'Roboto';
+  src: url('./fonts/Roboto/Roboto-Regular.ttf');
+}
+
+* {
+  font-family: 'Roboto';
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+#root {
+  height: 100%;
+  overflow: hidden;
+  /* max-height: 600px; */
+  background-color: #b5e2be;
+  background-image:   
+    url('./img/hills/hills1.png'),
+    url('./img/hills/hills2.png'),
+    url('./img/hills/hills3.png'),
+    url('./img/hills/cloud-front.png'),
+    url('./img/hills/hills4.png'),
+    url('./img/hills/cloud-back.png');
+  background-repeat: repeat-x;
+  background-position: 
+    0% 80%,
+    0% 80%,
+    0% 80%,
+    0% 80%,
+    0% 80%,
+    0% 80%;
+  animation: 500s para 1 linear;
+}
+
+@keyframes para {
+  100% {
+    background-position: 
+      0% 80%,
+      0% 80%,
+      0% 80%,
+      10000% 80%,
+      0% 80%,
+      5000% 80%;
+    }
+  }
