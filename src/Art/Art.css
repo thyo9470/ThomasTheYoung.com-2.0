@@ -1,0 +1,11 @@
+.ui.grid {
+  height: 100%;
+}
+
+#artGrid {
+  overflow: auto
+}
+
+#artGrid .column {
+  padding-bottom: 100px;
+}

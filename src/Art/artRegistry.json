@@ -1,0 +1,54 @@
+{
+  "art": [
+    {
+      "name": "Tiny Shoe Earrings",
+      "loc": "tiny-shoes",
+      "count": 25
+    },
+    {
+      "name": "BuffTech Stickers",
+      "loc": "bufftech-sticker",
+      "count": 3
+    },
+    {
+      "name": "Old Tech Stickers",
+      "loc": "old-tech-sticker",
+      "count": 4
+    },
+    {
+      "name": "Inhaler Bag",
+      "loc": "inhaler-bag",
+      "count": 4
+    },
+    {
+      "name": "Cherry Blossom Shoes",
+      "loc": "blossom-shoes",
+      "count": 5
+    },
+    {
+      "name": "GATS Shoes",
+      "loc": "gats-shoes",
+      "count": 6
+    },
+    {
+      "name": "Flow Can",
+      "loc": "flower-can",
+      "count": 2
+    },
+    {
+      "name": "Pink Camo Shoes",
+      "loc": "pink-shoes",
+      "count": 6
+    },
+    {
+      "name": "Wavy Shoes",
+      "loc": "wavy-shoes",
+      "count": 5
+    },
+    {
+      "name": "Cars of the Future",
+      "loc": "future-cars",
+      "count": 13
+    }
+  ]
+}

@@ -1,18 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Grid, Button, Container } from 'semantic-ui-react';
+import { useNavigate } from 'react-router-dom';
 import './Home.css'
+import SocialIcons from '../Components/SocialIcons.js';
 
-export default class Home extends Component {
-  render() {
-    return (
-      <Grid verticalAlign='middle'>
-        <Grid.Column textAlign="center">
-          <Container Text> <p> Thomas Young </p> </Container>
-          <Button color='black'>Art</Button>
-          <Button color='black'>Blog</Button>
-          <Button color='black'>Contact Me</Button>
-        </Grid.Column>
-      </Grid>
-    )
-  }
-}
+const Home = () => {
+  const navigate = useNavigate();
+  return (
+    <Grid verticalAlign='middle'>
+      <Grid.Column textAlign="center">
+        <Container text> <p className="title"> Thomas Young </p> </Container>
+        <Button color='black' onClick={() => navigate('/art')}>Art</Button>
+        <Button color='black' onClick={() => navigate('/about_me')}>About Me</Button>
+        <Container>
+          <SocialIcons />
+        </Container>
+      </Grid.Column>
+    </Grid>
+  )
+};
+
+export default Home;

@@ -21,37 +21,10 @@ code {
     monospace;
 }
 
-#root {
-  height: 100%;
-  overflow: hidden;
-  /* max-height: 600px; */
-  background-color: #b5e2be;
-  background-image:   
-    url('./img/hills/hills1.png'),
-    url('./img/hills/hills2.png'),
-    url('./img/hills/hills3.png'),
-    url('./img/hills/cloud-front.png'),
-    url('./img/hills/hills4.png'),
-    url('./img/hills/cloud-back.png');
-  background-repeat: repeat-x;
-  background-position: 
-    0% 80%,
-    0% 80%,
-    0% 80%,
-    0% 80%,
-    0% 80%,
-    0% 80%;
-  animation: 500s para 1 linear;
+p.title {
+  font-size: 4em;
 }
 
-@keyframes para {
-  100% {
-    background-position: 
-      0% 80%,
-      0% 80%,
-      0% 80%,
-      10000% 80%,
-      0% 80%,
-      5000% 80%;
-    }
-  }
+p.text {
+  font-size: 1.15em;
+}
