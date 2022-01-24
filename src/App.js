@@ -31,6 +31,7 @@ const App = () => {
     <div style={divStyle} onMouseMove={event => moveBackground(event, scrolling)}>
       <HeaderBar />
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="ThomasTheYoung.com-2.0" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="ThomasTheYoung.com-2.0/art" element={<Art />} />
