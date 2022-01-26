@@ -5,7 +5,7 @@ import HeaderBar from './HeaderBar.js';
 import Home from './Home/Home.js';
 import Art from './Art/Art.js';
 import AboutMe from './AboutMe/AboutMe.js';
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 const divStyle = {
   height: '100%'
@@ -26,7 +26,6 @@ const App = () => {
     setScrolling(scrolling);
   }, [location]);
 
-  
   return (
     <div style={divStyle} onMouseMove={event => moveBackground(event, scrolling)}>
       <HeaderBar />

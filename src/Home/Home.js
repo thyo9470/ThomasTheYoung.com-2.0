@@ -8,7 +8,7 @@ const Home = () => {
   const navigate = useNavigate();
   return (
     <Grid verticalAlign='middle'>
-      <Grid.Column textAlign="center">
+      <Grid.Column textAlign="center" className='middleContainer'>
         <Container text> <p className="title"> Thomas Young </p> </Container>
         <Button color='black' onClick={() => navigate('/art')}>Art</Button>
         <Button color='black' onClick={() => navigate('/about_me')}>About Me</Button>

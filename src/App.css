@@ -37,17 +37,6 @@
   }
 }
 
-div {
-  position: relative;
-}
-
-svg#backgroundSvg {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
-
-path.hills1Svg {
-  fill: green;
+.middleContainer {
+  margin-bottom: 20vh;
 }

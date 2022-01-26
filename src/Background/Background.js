@@ -1,39 +1,38 @@
 import './Background.css';
+import { colorReplace, hills1Url, hills2Url, hills3Url, hills4HighlightUrl, hills4Url, lupinUrl, cloudsFrontUrl, cloudsBackUrl } from '../Images/hills/svg/Hills.js'
+import * as colors from './colors.js';
 
-let timestamp = null;
-let lastMouseX = null;
-let lastMouseY = null;
-let backgroundPosX = [ 0, 0, 0, 0, 0, 0];
-let backgroundPosY = [ 80, 80, 80, 80, 80, 80];
+const rootElement = document.getElementById("root");
+const renderOrder = [hills1Url, hills2Url, lupinUrl, hills3Url, cloudsFrontUrl, hills4Url, hills4HighlightUrl, cloudsBackUrl];
+
+const getColors = (newColors) => {
+  return renderOrder.map((url, i) => url.replace(colorReplace, newColors[i+1]));
+}
+
+const applyColors = (newColors) => {
+  rootElement.style.backgroundColor = newColors[0];
+  rootElement.style.backgroundImage = getColors(newColors);
+}
+
+applyColors(colors.second);
+
+const getBackgroundPosX = () => {
+  const rootStyle = window.getComputedStyle(rootElement);
+  const rootBackgroundPosition = rootStyle.getPropertyValue('background-position-x').replace(/%/g, '').split(', ');
+  return rootBackgroundPosition.map((xVal, i) => parseInt(xVal));
+}
+
+let backgroundPosX = getBackgroundPosX();
+const speedXDiv = 75;
+const speedXMod = [ 1, .3, .3, .1, .1, .05, .05, .02 ];
+let backgroundPosY = [ 80, 80, 80, 80, 80, 80, 80, 80 ];
 let minY = 70;
 let maxY = 90;
 
 const nonScrolling = ['art', 'about_me'];
 
-const getMouseSpeed = (event) => {
-  if (timestamp === null) {
-    timestamp = Date.now();
-    lastMouseX = event.screenX;
-    lastMouseY = event.screenY;
-    return 0;
-  }
-
-  var now = Date.now();
-  var dt =  now - timestamp;
-  var dx = event.screenX - lastMouseX;
-  var dy = event.screenY - lastMouseY;
-  var speedX = Math.round(dx / dt * 100);
-  var speedY = Math.round(dy / dt * 100);
-
-  timestamp = now;
-  lastMouseX = event.screenX;
-  lastMouseY = event.screenY;
-
-  return [speedX, speedY];
-}
-
 const getXChange = (speedX, index) => {
-  return (speedX)/(index+1);
+  return speedX * speedXMod[index];
 }
 
 const getYChange = (curY, speedY, index) => {
@@ -44,11 +43,9 @@ const getYChange = (curY, speedY, index) => {
 
 const moveBackground = (event, isScrolling) => {
   if (!isScrolling) return;
-  var root = document.getElementById("root");
 
-  const speedVals = getMouseSpeed(event);
-  const speedX = speedVals[0]/50;
-  const speedY = speedVals[1]/300;
+  const speedX = -event.movementX/speedXDiv;
+  const speedY = 0;
 
   if (!isFinite(speedX) || Number.isNaN(speedX) ||
       !isFinite(speedY) || Number.isNaN(speedY)) {
@@ -56,10 +53,10 @@ const moveBackground = (event, isScrolling) => {
   }
 
   backgroundPosX = backgroundPosX.map((x, i) => x + getXChange(speedX, i));
-  root.style.backgroundPositionX = backgroundPosX.map(x => `${x}%`);
+  rootElement.style.backgroundPositionX = backgroundPosX.map(x => `${x}%`);
 
-  backgroundPosY = backgroundPosY.map((y, i) => getYChange(y, speedY, i));
-  root.style.backgroundPositionY = backgroundPosY.map(y => `${y}%`);
+  /*backgroundPosY = backgroundPosY.map((y, i) => getYChange(y, speedY, i));
+  root.style.backgroundPositionY = backgroundPosY.map(y => `${y}%`);*/
 }
 
 export { nonScrolling, moveBackground }
