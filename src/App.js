@@ -5,7 +5,7 @@ import Home from './Home/Home.js';
 import Art from './Art/Art.js';
 import AboutMe from './AboutMe/AboutMe.js';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import BackgroundMovement, { isScrolling} from './Background/Background.js';
+import BackgroundMovement, { isScrolling} from './Background/Background';
 
 const divStyle = {
   height: '100vh'
