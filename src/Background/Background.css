@@ -12,16 +12,35 @@
     url('../Images/hills/hills4Bottom.svg'),
     url('../Images/hills/cloudsBack.svg');
   background-size:110%;
-  background-position: 
-    0% 50%,
-    50% 50%,
-    50% 50%,
-    500% 50%,
-    0% 50%,
-    250% 40%,
-    250% 40%,
-    0% 50%;
   animation: 50s para 1 linear;
+}
+
+@media screen and (orientation: portrait) {
+  #root {
+    background-position: 
+      0%   100%,
+      50%  100%,
+      50%  100%,
+      500% 100%,
+      0%   100%,
+      250% 100%,
+      250% 100%,
+      0%   100%;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  #root {
+    background-position: 
+      0% 50%,
+      50% 50%,
+      50% 50%,
+      500% 50%,
+      0% 50%,
+      250% 40%,
+      250% 40%,
+      0% 50%;
+  }
 }
 
 /*@keyframes para {

@@ -5,6 +5,7 @@ import hillsSvgs, {hills4HighlightIndex} from '../Images/hills/HillsSvgs.js';
 const rootElement = document.getElementById("root");
 
 const nonScrolling = ['art', 'about_me'];
+const yMargin = 30;
 
 let isScrolling = true;
 
@@ -16,8 +17,8 @@ export default class BackgroundMovement {
     this.backgroundPosY = this.getBackgroundPosY();
     this.speedYDiv = 200;
     this.speedYMod = [ 1, .3, .3, .1, .1, .05, .05, .02 ];
-    this.minY = 40;
-    this.maxY = 60;
+    this.minY = this.backgroundPosY[0] - yMargin;
+    this.maxY = this.backgroundPosY[0] + yMargin;
     this.nonScrolling = ['art', 'about_me'];
 
     document.body.addEventListener('mousemove', event => this.move(event));
