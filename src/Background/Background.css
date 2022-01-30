@@ -2,6 +2,7 @@
   min-height: 100%;
   overflow: hidden;
   background-repeat: repeat-x;
+  background-color: #D3D3D3;
   background-image:   
     url('../Images/hills/hills1.svg'),
     url('../Images/hills/hills2.svg'),

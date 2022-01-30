@@ -21,6 +21,8 @@ export default class BackgroundMovement {
 
   readonly nonScrolling: string[] = ['art', 'about_me'];
 
+  readonly colorManager: ColorManager = new ColorManager();
+
   constructor() {
     this.backgroundPosX = this.getBackgroundPosX();
     this.backgroundPosY = this.getBackgroundPosY();
@@ -30,20 +32,18 @@ export default class BackgroundMovement {
 
     document.body.addEventListener('mousemove', event => this.move(event));
 
-    const colorManager = new ColorManager();
-    this.loadBackground(hillsSvgs, colorManager.randomColor());
+    this.loadBackground(hillsSvgs, this.colorManager.getRandomColor());
   }
 
-  loadBackground(backgroundSvgs: BackgroundSvg, palette: BackgroundPalette) {
-    document.body.style.backgroundColor = `${palette.background}`;
+  loadBackground(backgroundSvgs: BackgroundSvg, palette: string[]) {
     const promises: any = [];
     const formattedHills: string[] = new Array(Object.keys(hillsSvgs).length);
 
-    Object.keys(backgroundSvgs).map((layerName: string, index: number) => {
-      const layerSvg: any = backgroundSvgs[layerName];
-      const layerColor: string = palette[layerName];
+    Object.entries(backgroundSvgs).map(([layerName, layerSvg]: [string, any], index: number) => {
+      const layerColor: string = palette[index+1];
+      console.log('test ', layerColor, index)
       const layerPromise: Promise<any> = fetch(layerSvg)
-        .then((res: string) => res.text())
+        .then((res: any) => res.text())
         .then((text: string) => {
           const formattedSvg: string = text.replace('\n', '').replace(/fill="#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})/, `fill="${layerColor}`);
           const backgroundUrl = `url('data:image/svg+xml;base64,${btoa(formattedSvg)}')`;
@@ -53,7 +53,9 @@ export default class BackgroundMovement {
     });
 
     Promise.all(promises).then((values) => {
-      rootElement.style.backgroundImage = formattedHills;
+      if (rootElement == null) throw new Error('RootElement missing - Cannot set background images');
+      document.body.style.backgroundColor = `${palette[0]}`;
+      rootElement.style.backgroundImage = formattedHills.join(', ');
     });
   }
 
@@ -87,6 +89,7 @@ export default class BackgroundMovement {
   }
 
   move(event: any) {
+    if (rootElement == null) throw new Error('RootElement missing - Cannot move background images');
     if (!isScrolling) return;
     const speedX = -event.movementX/this.speedXDiv;
     const speedY = -event.movementY/this.speedYDiv;
@@ -97,10 +100,10 @@ export default class BackgroundMovement {
     }
 
     this.backgroundPosX = this.backgroundPosX.map((x, i) => x + this.getXChange(speedX, i));
-    rootElement.style.backgroundPositionX = this.backgroundPosX.map(x => `${x}%`);
+    rootElement.style.backgroundPositionX = this.backgroundPosX.map(x => `${x}%`).join(', ');
 
     this.backgroundPosY = this.backgroundPosY.map((y, i) => this.getYChange(speedY, i));
-    rootElement.style.backgroundPositionY = this.backgroundPosY.map(y => `${y}%`);
+    rootElement.style.backgroundPositionY = this.backgroundPosY.map(y => `${y}%`).join(', ');
   }
 }
 

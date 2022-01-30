@@ -8,11 +8,11 @@ export interface BackgroundPalette {
   background: string;
   first: string;
   second: string;
-  object?: string;
+  object: string;
   third: string;
   frontClouds: string;
   fourth: string;
-  highlight?: string;
+  highlight: string;
   backClouds: string;
 };
 
@@ -20,50 +20,67 @@ export default class ColorManager {
   colorPalettes: { [name: string]:BackgroundPalette; } = {}
 
   constructor() {
-    this.colorPalettes['first'] = {
+    /*this.colorPalettes['first'] = {
       background:'#b5e2be',
       first:'#2c202f',
       second:'#e24234',
+      object: '#e24234',
       third: '#ebb44b',
       frontClouds: '#ffffff',
       fourth: '#fdf6b0',
+      highlight: '#fdf6b0',
       backClouds: '#ffffff'
     }
-    this.addObject(this.colorPalettes.first);
-    this.addHighlight(this.colorPalettes.first, 70);
+    this.addHighlight(this.colorPalettes.first, 70);*/
 
     this.colorPalettes['second'] = {
       background: '#D0CE7C',
       first: '#628395',
       second: '#96897B',
+      object: '#96897B',
       third: '#DBAD6A',
       frontClouds: '#ffffff',
       fourth: '#CF995F',
+      highlight: '#CF995F',
       backClouds: '#ffffff'
     };
-    this.addObject(this.colorPalettes.second);
-    this.addHighlight(this.colorPalettes.second, 100);
+    this.addHighlight(this.colorPalettes.second, 70);
 
     this.colorPalettes['third'] = {
       background: '#E59E8A',
       first: '#9799C2',
       second: '#C5BCD7',
+      object: '#C5BCD7',
       third: '#F4E6CC',
       frontClouds: '#F8F0E3',
       fourth: '#F1C7A3',
+      highlight: '#F1C7A3',
       backClouds: '#F8F0E3'
     };
-    this.addObject(this.colorPalettes.third);
     this.addHighlight(this.colorPalettes.third, 70);
+
+    this.colorPalettes['grey'] = {
+      background: '#D3D3D3',
+      first: '#696969',
+      second: '#7D7D7D',
+      object: '#7D7D7D',
+      third: '#9E9E9E',
+      frontClouds: '#f9f9f9',
+      fourth: '#BDBDBD',
+      highlight: '#BDBDBD',
+      backClouds: '#f9f9f9'
+    };
+    this.addHighlight(this.colorPalettes.grey, 70);
   }
 
-  randomColor(): backgroundPalette {
+  getRandomColor(): string[] {
     const colors = Object.keys(this.colorPalettes);
     const colorName = colors[Math.floor(Math.random() * colors.length)];
-    return this.colorPalettes[colorName]
+    const cp = this.colorPalettes[colorName];
+    return [cp.background, cp.first, cp.second, cp.object, cp.third, cp.frontClouds, cp.fourth, cp.highlight, cp.backClouds]
   }
 
-  addObject(palette: backgroundPalette) {
+  addObject(palette: BackgroundPalette) {
     palette.object = palette.second
   }
 
