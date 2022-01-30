@@ -1,30 +1,30 @@
 #root {
-  height: 100%;
+  min-height: 100%;
   overflow: hidden;
-  background-color: #b5e2be;
-  background-image:   
-    url('../Images/hills/svg/hills1.svg'),
-    url('../Images/hills/svg/hills2.svg'),
-    url('../Images/hills/svg/lupin.svg'),
-    url('../Images/hills/svg/hills3.svg'),
-    url('../Images/hills/cloud-front.png'),
-    url('../Images/hills/svg/hills4.svg'),
-    url('../Images/hills/svg/hills4-highlight.svg'),
-    url('../Images/hills/cloud-back.png');
   background-repeat: repeat-x;
+  background-image:   
+    url('../Images/hills/hills1.svg'),
+    url('../Images/hills/hills2.svg'),
+    url('../Images/hills/lupin.svg'),
+    url('../Images/hills/hills3.svg'),
+    url('../Images/hills/cloudsFront.svg'),
+    url('../Images/hills/hills4Top.svg'),
+    url('../Images/hills/hills4Bottom.svg'),
+    url('../Images/hills/cloudsBack.svg');
+  background-size:110%;
   background-position: 
-    0% 80%,
-    50% 80%,
-    50% 80%,
-    500% 70%,
-    0% 80%,
-    0% 60%,
-    0% 60%,
-    0% 80%;
+    0% 50%,
+    50% 50%,
+    50% 50%,
+    500% 50%,
+    0% 50%,
+    250% 40%,
+    250% 40%,
+    0% 50%;
   animation: 50s para 1 linear;
 }
 
-@keyframes para {
+/*@keyframes para {
   100% {
     background-position-x: 
       0%, 
@@ -36,4 +36,4 @@
       0%,
       500px;
     }
-  }
+  }*/

@@ -1,62 +1,97 @@
 import './Background.css';
-import { colorReplace, hills1Url, hills2Url, hills3Url, hills4HighlightUrl, hills4Url, lupinUrl, cloudsFrontUrl, cloudsBackUrl } from '../Images/hills/svg/Hills.js'
 import * as colors from './colors.js';
+import hillsSvgs, {hills4HighlightIndex} from '../Images/hills/HillsSvgs.js';
 
 const rootElement = document.getElementById("root");
-const renderOrder = [hills1Url, hills2Url, lupinUrl, hills3Url, cloudsFrontUrl, hills4Url, hills4HighlightUrl, cloudsBackUrl];
-
-const getColors = (newColors) => {
-  return renderOrder.map((url, i) => url.replace(colorReplace, newColors[i+1]));
-}
-
-const applyColors = (newColors) => {
-  rootElement.style.backgroundColor = newColors[0];
-  rootElement.style.backgroundImage = getColors(newColors);
-}
-
-applyColors(colors.second);
-
-const getBackgroundPosX = () => {
-  const rootStyle = window.getComputedStyle(rootElement);
-  const rootBackgroundPosition = rootStyle.getPropertyValue('background-position-x').replace(/%/g, '').split(', ');
-  return rootBackgroundPosition.map((xVal, i) => parseInt(xVal));
-}
-
-let backgroundPosX = getBackgroundPosX();
-const speedXDiv = 75;
-const speedXMod = [ 1, .3, .3, .1, .1, .05, .05, .02 ];
-let backgroundPosY = [ 80, 80, 80, 80, 80, 80, 80, 80 ];
-let minY = 70;
-let maxY = 90;
 
 const nonScrolling = ['art', 'about_me'];
 
-const getXChange = (speedX, index) => {
-  return speedX * speedXMod[index];
-}
+let isScrolling = true;
 
-const getYChange = (curY, speedY, index) => {
-  const yCeil = Math.min(maxY, curY + speedY/(index+1))
-  const yFloor = Math.max(minY, yCeil)
-  return yFloor;
-}
+export default class BackgroundMovement {
+  constructor() {
+    this.backgroundPosX = this.getBackgroundPosX();
+    this.speedXDiv = 10;
+    this.speedXMod = [ 1, .3, .3, .1, .1, .05, .05, .02 ];
+    this.backgroundPosY = this.getBackgroundPosY();
+    this.speedYDiv = 200;
+    this.speedYMod = [ 1, .3, .3, .1, .1, .05, .05, .02 ];
+    this.minY = 40;
+    this.maxY = 60;
+    this.nonScrolling = ['art', 'about_me'];
 
-const moveBackground = (event, isScrolling) => {
-  if (!isScrolling) return;
+    document.body.addEventListener('mousemove', event => this.move(event));
 
-  const speedX = -event.movementX/speedXDiv;
-  const speedY = 0;
-
-  if (!isFinite(speedX) || Number.isNaN(speedX) ||
-      !isFinite(speedY) || Number.isNaN(speedY)) {
-    return;
+    this.loadHills(colors.second);
   }
 
-  backgroundPosX = backgroundPosX.map((x, i) => x + getXChange(speedX, i));
-  rootElement.style.backgroundPositionX = backgroundPosX.map(x => `${x}%`);
+  loadHills(colors) {
+    document.body.style.backgroundColor = `${colors[0]}`;
+    const promises = [];
+    const formattedHills = new Array(hillsSvgs.length);
+    hillsSvgs.map((hills, index) => {
+    const hillPromise = fetch(hills)
+      .then(r => r.text())
+      .then(text => {
+        const formattedSvg = text.replace('\n', '').replace(/fill="#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})/, `fill="${colors[index+1]}`);
+        const backgroundUrl = `url('data:image/svg+xml;base64,${btoa(formattedSvg)}')`;
+        formattedHills[index] = backgroundUrl;
+      })
+      .catch(error => {
+        formattedHills[index] = null;
+      });
+      promises.push(hillPromise); 
+    });
+    Promise.all(promises).then((values) => {
+      if (formattedHills.includes(null)) return;
+      rootElement.style.backgroundImage = formattedHills;
+    });
+  }
 
-  /*backgroundPosY = backgroundPosY.map((y, i) => getYChange(y, speedY, i));
-  root.style.backgroundPositionY = backgroundPosY.map(y => `${y}%`);*/
+  setIsScrolling(newIsScrolling) {
+    isScrolling = newIsScrolling;
+  }
+
+  getBackgroundPosX() {
+    const rootStyle = window.getComputedStyle(rootElement);
+    const rootBackgroundPosition = rootStyle.getPropertyValue('background-position-x').replace(/%/g, '').split(', ');
+    return rootBackgroundPosition.map((xVal, i) => parseInt(xVal));
+  }
+
+  getBackgroundPosY() {
+    const rootStyle = window.getComputedStyle(rootElement);
+    const rootBackgroundPosition = rootStyle.getPropertyValue('background-position-y').replace(/%/g, '').split(', ');
+    return rootBackgroundPosition.map((xVal, i) => parseInt(xVal));
+  }
+
+  getXChange(speedX, index) {
+    return speedX * this.speedXMod[index];
+  }
+
+  getYChange(speedY, index) {
+    const curY = this.backgroundPosY[index];
+    const yCeil = Math.min(this.maxY, curY + (speedY * this.speedYMod[index]))
+    const yFloor = Math.max(this.minY, yCeil)
+    return yFloor;
+  }
+
+  move(event) {
+    if (!isScrolling) return;
+    const speedX = -event.movementX/this.speedXDiv;
+    const speedY = -event.movementY/this.speedYDiv;
+
+    if (!isFinite(speedX) || Number.isNaN(speedX) ||
+        !isFinite(speedY) || Number.isNaN(speedY)) {
+      return;
+    }
+
+    this.backgroundPosX = this.backgroundPosX.map((x, i) => x + this.getXChange(speedX, i));
+    rootElement.style.backgroundPositionX = this.backgroundPosX.map(x => `${x}%`);
+
+    this.backgroundPosY = this.backgroundPosY.map((y, i) => this.getYChange(speedY, i));
+    rootElement.style.backgroundPositionY = this.backgroundPosY.map(y => `${y}%`);
+  }
+
 }
 
-export { nonScrolling, moveBackground }
+export {isScrolling}
